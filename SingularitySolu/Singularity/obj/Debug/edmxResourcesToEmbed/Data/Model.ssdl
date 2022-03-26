@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SingularityDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="HR_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" Nullable="false" />
+    <Property Name="UpdateBy" Type="int" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HR_RolePremissionMap">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="PermissionNo" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" Nullable="false" />
+    <Property Name="UpdateBy" Type="int" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="HR_Settings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CanView" Type="bit" />
+    <Property Name="CanAdd" Type="bit" />
+    <Property Name="CanEdit" Type="bit" />
+    <Property Name="CanDelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="HR_User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="VerificationCode" Type="nvarchar" MaxLength="250" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="int" Nullable="false" />
+    <Property Name="UpdateBy" Type="int" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="History" Type="nvarchar(max)" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_HR_RolePremissionMap_HR_Role">
+    <End Role="HR_Role" Type="Self.HR_Role" Multiplicity="1" />
+    <End Role="HR_RolePremissionMap" Type="Self.HR_RolePremissionMap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HR_RolePremissionMap">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_User_HR_Role">
+    <End Role="HR_Role" Type="Self.HR_Role" Multiplicity="1" />
+    <End Role="HR_User" Type="Self.HR_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HR_User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SingularityDbModelStoreContainer">
+    <EntitySet Name="HR_Role" EntityType="Self.HR_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_RolePremissionMap" EntityType="Self.HR_RolePremissionMap" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_Settings" EntityType="Self.HR_Settings" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_User" EntityType="Self.HR_User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_HR_RolePremissionMap_HR_Role" Association="Self.FK_HR_RolePremissionMap_HR_Role">
+      <End Role="HR_Role" EntitySet="HR_Role" />
+      <End Role="HR_RolePremissionMap" EntitySet="HR_RolePremissionMap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_User_HR_Role" Association="Self.FK_HR_User_HR_Role">
+      <End Role="HR_Role" EntitySet="HR_Role" />
+      <End Role="HR_User" EntitySet="HR_User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
